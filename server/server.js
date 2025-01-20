@@ -1,16 +1,10 @@
 import { config } from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
-import User from "./models/User.js";
 import cors from "cors";
+import authRoutes from "./routes/authroutes.js";
 
 config();
-
-const app = express();
-
-// Middleware to parse JSON data
-app.use(cors());
-app.use(express.json());
 
 // Connect to MongoDB
 mongoose
@@ -18,7 +12,14 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((error) => console.error("MongoDB connection error: ", error));
 
-// cors
+const app = express();
+
+// Middleware to parse JSON data
+app.use(cors());
+app.use(express.json());
+
+// API routes
+app.use("/api/auth", authRoutes);
 
 // Define a route to fetch all users
 app.get("/", (req, res) => {
