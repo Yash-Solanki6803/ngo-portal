@@ -1,5 +1,11 @@
 import express from "express";
-import { register, getUser, login } from "../controller/authController.js";
+import {
+  register,
+  getUser,
+  login,
+  getUserById,
+  getAllUser,
+} from "../controller/authController.js";
 import {
   authMiddleware,
   roleMiddleware,
@@ -15,5 +21,11 @@ router.post("/login", login);
 
 //Get user
 router.get("/user", authMiddleware, getUser);
+
+//Get user by ID
+// router.get("/users/:id", authMiddleware, getUserById);
+
+//Get all user
+router.get("/users", authMiddleware, roleMiddleware("dev"), getAllUser);
 
 export default router;
