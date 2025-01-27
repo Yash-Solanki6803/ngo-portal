@@ -15,7 +15,13 @@ mongoose
 const app = express();
 
 // Middleware to parse JSON data
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    allowedHeaders: ["Authorization", "Content-Type"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 // API routes

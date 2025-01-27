@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { User } from "../models/index.js";
 import jwt from "jsonwebtoken";
 
@@ -34,6 +35,13 @@ export const login = async (req, res) => {
       expiresIn: process.env.JWT_EXPIRATION,
     });
 
+    //Set token in cookie as auth_token
+    res.cookie("auth_token", token, {
+      httpOnly: true,
+      secure: false,
+      // sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    });
+
     //Return token and the user but not the password
     const { password: _, ...userWithoutPassword } = user._doc;
 
@@ -48,14 +56,25 @@ export const login = async (req, res) => {
 
 // Get user info
 export const getUser = async (req, res) => {
-  try {
-    const user = req.user; // We added `user` to the request from the authMiddleware
+  //get token from request header
+  const token = req.headers.authorization.split(" ")[1];
 
-    res.status(200).json({ user });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+  if (!token) {
+    return res.status(401).json({ message: "Token is missing" });
   }
+
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+  // Validate the ID
+  if (!mongoose.Types.ObjectId.isValid(decoded.id)) {
+    return res.status(400).json({ message: "Invalid user ID" });
+  }
+  const user = await User.findById(decoded.id);
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  return res.status(200).json(user);
 };
 
 //Get user by ID

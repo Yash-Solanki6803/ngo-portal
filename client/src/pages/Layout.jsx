@@ -1,18 +1,28 @@
 import { Outlet, Link } from "react-router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { fetchUserFromCookie } from "../redux/slices/userSlice";
-import { fetchUserFromCookie } from "../api/authservice";
+import { fetchUserFromToken } from "../api/authservice";
+import { setUserInfo } from "../redux/slices/userSlice";
 
 const Layout = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-
+  const token = localStorage.getItem("auth_token");
   useEffect(() => {
-    if (!isLoggedIn) {
-      const data = fetchUserFromCookie();
-    }
-  }, [dispatch, isLoggedIn]);
+    const fetchData = async () => {
+      if (!isLoggedIn && token) {
+        try {
+          const data = await fetchUserFromToken();
+          //set data to redux store
+          dispatch(setUserInfo(data));
+        } catch (error) {
+          console.error("Error fetching user from token:", error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [dispatch, isLoggedIn, token]);
 
   return (
     <>

@@ -8,7 +8,6 @@ function Login() {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
-  const userData = useSelector((state) => state.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -22,10 +21,9 @@ function Login() {
     try {
       const data = await loginUser(email, password);
       // Store token or redirect
-      localStorage.setItem("token", data.token);
+      localStorage.setItem("auth_token", data.token);
 
       dispatch(setUserInfo(data.userWithoutPassword));
-      // Redirect using Navigate
       navigate("/");
     } catch (err) {
       setError(err);

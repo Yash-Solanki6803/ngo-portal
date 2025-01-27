@@ -9,10 +9,13 @@ export const loginUser = async (email, password) => {
   }
 };
 
-export const fetchUserFromCookie = async () => {
+export const fetchUserFromToken = async () => {
   try {
-    const response = await api.get("/auth/user");
-    return response.data; // Assuming API sends back user details and token
+    const response = await api.get("/auth/user", {
+      withCredentials: true,
+    });
+
+    return response.data;
   } catch (error) {
     throw error.response?.data?.message || "Something went wrong!";
   }
