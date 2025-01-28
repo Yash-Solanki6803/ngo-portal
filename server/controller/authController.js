@@ -35,8 +35,6 @@ export const login = async (req, res) => {
       expiresIn: process.env.JWT_EXPIRATION,
     });
 
-    console.log("Expires in: ", process.env.JWT_EXPIRATION);
-
     //Set token in cookie as auth_token
     res.cookie("auth_token", token, {
       httpOnly: true,
