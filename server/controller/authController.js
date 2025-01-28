@@ -35,6 +35,8 @@ export const login = async (req, res) => {
       expiresIn: process.env.JWT_EXPIRATION,
     });
 
+    console.log("Expires in: ", process.env.JWT_EXPIRATION);
+
     //Set token in cookie as auth_token
     res.cookie("auth_token", token, {
       httpOnly: true,
@@ -56,25 +58,35 @@ export const login = async (req, res) => {
 
 // Get user info
 export const getUser = async (req, res) => {
-  //get token from request header
-  const token = req.headers.authorization.split(" ")[1];
+  try {
+    // get token from request header
+    const token = req.headers.authorization.split(" ")[1];
 
-  if (!token) {
-    return res.status(401).json({ message: "Token is missing" });
+    if (!token) {
+      return res.status(401).json({ message: "Token is missing" });
+    }
+
+    // verify the token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Validate the ID
+    if (!mongoose.Types.ObjectId.isValid(decoded.id)) {
+      return res.status(400).json({ message: "Invalid user ID" });
+    }
+
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error(error.name);
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Token has Yashed" });
+    }
+    return res.status(500).json({ message: error.message });
   }
-
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-  // Validate the ID
-  if (!mongoose.Types.ObjectId.isValid(decoded.id)) {
-    return res.status(400).json({ message: "Invalid user ID" });
-  }
-  const user = await User.findById(decoded.id);
-  if (!user) {
-    return res.status(404).json({ message: "User not found" });
-  }
-
-  return res.status(200).json(user);
 };
 
 //Get user by ID
