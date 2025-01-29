@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserFromToken } from "../api/authservice";
 import { setUserInfo } from "../redux/slices/userSlice";
+import { Logout } from "../components";
 
 const Layout = () => {
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ const Layout = () => {
         </ul>
 
         <Link to="/login">Login</Link>
+        <Logout />
         <Link to="/register">Register</Link>
       </nav>
 
