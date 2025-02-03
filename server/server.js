@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import authRoutes from "./routes/authroutes.js";
+import userRoutes from "./routes/userroutes.js";
 
 config();
 
@@ -26,6 +27,7 @@ app.use(express.json());
 
 // API routes
 app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 
 // Define a route to fetch all users
 app.get("/", (req, res) => {
