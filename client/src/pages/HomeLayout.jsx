@@ -5,7 +5,7 @@ import { fetchUserFromToken } from "../api/authservice";
 import { setUserInfo } from "../redux/slices/userSlice";
 import { Logout } from "../components";
 
-const Layout = () => {
+const HomeLayout = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const token = localStorage.getItem("auth_token");
@@ -26,7 +26,7 @@ const Layout = () => {
   }, [dispatch, isLoggedIn, token]);
 
   return (
-    <>
+    <main className="h-screen flex flex-col">
       <nav className="border flex justify-between px-24 py-6 items-center">
         <ul className="flex gap-10">
           <li>
@@ -55,8 +55,8 @@ const Layout = () => {
       </nav>
 
       <Outlet />
-    </>
+    </main>
   );
 };
 
-export default Layout;
+export default HomeLayout;
