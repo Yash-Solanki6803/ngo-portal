@@ -20,13 +20,34 @@ function DashboardLayout() {
             Dashboard
           </Link>
 
-          <ul className="flex gap-10 mt-10">
+          <ul className="flex flex-col gap-10 mt-10">
+            {/* NGO users only */}
+            {userInfo.role === "ngo" && (
+              <>
+                <li>
+                  <Link
+                    className="font-thin text-xl border-b border-transparent hover:border-gray-900 transition-all duration-200 ease-in"
+                    to="/dashboard/campaigns/create"
+                  >
+                    Start a Campaign
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="font-thin text-xl border-b border-transparent hover:border-gray-900 transition-all duration-200 ease-in"
+                    to={`/dashboard/campaigns`}
+                  >
+                    Your Campaigns
+                  </Link>
+                </li>
+              </>
+            )}
             <li>
               <Link
                 className="font-thin text-xl border-b border-transparent hover:border-gray-900 transition-all duration-200 ease-in"
                 to="/dashboard/users"
               >
-                Users
+                Volunteers
               </Link>
             </li>
           </ul>

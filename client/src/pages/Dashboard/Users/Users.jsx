@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import { fetchAllUsers } from "../../../api/dashboardService";
+import { fetchAllUsers } from "../../../api/authservice";
 import { UserCard } from "../../../components";
 function Users() {
   const user = useSelector((state) => state.user);
