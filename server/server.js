@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import authRoutes from "./routes/authroutes.js";
 import userRoutes from "./routes/userroutes.js";
+import campaignRoutes from "./routes/campaignroutes.js";
 
 config();
 
@@ -28,6 +29,7 @@ app.use(express.json());
 // API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api", campaignRoutes);
 
 // Define a route to fetch all users
 app.get("/", (req, res) => {

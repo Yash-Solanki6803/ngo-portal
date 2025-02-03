@@ -13,6 +13,9 @@ const userSchema = new mongoose.Schema({
     enum: ["dev", "ngo", "volunteer"],
     required: true,
   },
+  campaignsJoined: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "Campaign", default: [] },
+  ],
 });
 
 userSchema.pre("save", async function (next) {
