@@ -10,6 +10,10 @@ function Users() {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState({
+    show: false,
+    email: "",
+  });
 
   useEffect(() => {
     fetchUsers();
@@ -58,12 +62,15 @@ function Users() {
       </div>
       <div className="h-5/6 overflow-y-auto flex flex-col gap-2">
         {loading && <div>Loading...</div>}
-        {filteredUsers.map((user) => (
+        {filteredUsers.map((filteredUser) => (
           <UserCard
-            key={user._id}
-            name={user.name}
-            email={user.email}
-            role={user.role}
+            key={filteredUser._id}
+            name={filteredUser.name}
+            email={filteredUser.email}
+            role={filteredUser.role}
+            userRole={user.userInfo.role}
+            showModal={showModal}
+            setShowModal={setShowModal}
           />
         ))}
       </div>
