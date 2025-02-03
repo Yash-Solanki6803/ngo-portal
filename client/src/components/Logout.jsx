@@ -6,7 +6,11 @@ function Logout() {
     sessionStorage.clear();
     window.location.href = "/";
   };
-  return <div onClick={handleLogout}>Logout</div>;
+  return (
+    <div className="cursor-pointer" onClick={handleLogout}>
+      Logout
+    </div>
+  );
 }
 
 export default Logout;

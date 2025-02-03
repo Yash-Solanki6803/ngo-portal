@@ -27,8 +27,8 @@ const Layout = () => {
 
   return (
     <>
-      <nav className="border flex justify-between px-24 items-center">
-        <ul className="flex gap-10 text-3xl">
+      <nav className="border flex justify-between px-24 py-6 items-center">
+        <ul className="flex gap-10">
           <li>
             <Link to="/">Home</Link>
           </li>
@@ -39,10 +39,19 @@ const Layout = () => {
             <Link to="/contact">Contact</Link>
           </li>
         </ul>
-
-        <Link to="/login">Login</Link>
-        <Logout />
-        <Link to="/register">Register</Link>
+        <div>
+          {isLoggedIn ? (
+            <div className="flex gap-10">
+              <Logout />
+              <Link to="/dashboard">Dashboard</Link>
+            </div>
+          ) : (
+            <div className="flex gap-10">
+              <Link to="/login">Login</Link>
+              <Link to="/register">Register</Link>
+            </div>
+          )}
+        </div>
       </nav>
 
       <Outlet />

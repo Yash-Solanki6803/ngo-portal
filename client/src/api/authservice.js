@@ -1,5 +1,20 @@
 import api from "./api";
 
+export const registerUser = async (name, email, password) => {
+  try {
+    const response = await api.post("/auth/register", {
+      name,
+      email,
+      password,
+    });
+    return response;
+  } catch (error) {
+    const errorMessage =
+      error.response?.data?.message || "Something went wrong!";
+    throw errorMessage;
+  }
+};
+
 export const loginUser = async (email, password) => {
   try {
     const response = await api.post("/auth/login", { email, password });

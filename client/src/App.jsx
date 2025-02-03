@@ -1,5 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router";
-import { Layout, About, Home, NoPage, Login, Register } from "./pages";
+import {
+  Layout,
+  About,
+  Home,
+  NoPage,
+  Login,
+  Register,
+  Dashboard,
+} from "./pages";
 export default function App() {
   return (
     <BrowserRouter>
@@ -9,6 +17,7 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

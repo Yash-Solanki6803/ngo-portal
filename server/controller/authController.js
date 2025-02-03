@@ -5,13 +5,26 @@ import jwt from "jsonwebtoken";
 // Register User
 export const register = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
+    const role = "volunteer";
+
+    //Check if any field is empty
+    if (!name || !email || !password) {
+      throw new Error("Please fill in all fields");
+    }
+
+    //Check if user already exists
+    const existingUser = User.findOne({ email });
+    if (existingUser) {
+      throw new Error("User already exists");
+    }
+
     const newUser = new User({ name, email, password, role });
     await newUser.save();
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    //Throw the error caught
+    res.status(500).json({ message: error.message || "Server error" });
   }
 };
 
@@ -19,6 +32,12 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    //Check if any field is empty
+    if (!email || !password) {
+      return res.status(400).json({ message: "Please fill in all fields" });
+    }
+
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -49,8 +68,7 @@ export const login = async (req, res) => {
       .status(200)
       .json({ message: "Login successful", token, userWithoutPassword });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: error.message || "Server error" });
   }
 };
 

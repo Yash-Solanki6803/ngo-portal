@@ -5,12 +5,16 @@ import { useNavigate } from "react-router";
 import { setUserInfo } from "../redux/slices/userSlice";
 
 function Login() {
+  const initialFormValues = {
+    email: "",
+    password: "",
+  };
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [formData, setFormData] = useState(initialFormValues);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -19,7 +23,7 @@ function Login() {
     setIsLoading(true);
 
     try {
-      const data = await loginUser(email, password);
+      const data = await loginUser(formData.email, formData.password);
       // Store token or redirect
       localStorage.setItem("auth_token", data.token);
 
@@ -30,6 +34,13 @@ function Login() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
@@ -45,15 +56,17 @@ function Login() {
         <input
           type="email"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
           className="border p-2 mb-4 w-full"
         />
         <input
           type="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
           className="border p-2 mb-4 w-full"
         />
         <button
