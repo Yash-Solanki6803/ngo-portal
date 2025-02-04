@@ -16,6 +16,11 @@ const userSchema = new mongoose.Schema({
   campaignsJoined: [
     { type: mongoose.Schema.Types.ObjectId, ref: "Campaign", default: [] },
   ],
+  // If role is 'ngo', then he will have a ngoId
+  ngoId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Ngo",
+  },
 });
 
 userSchema.pre("save", async function (next) {

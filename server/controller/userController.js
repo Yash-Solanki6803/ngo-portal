@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { User } from "../models/index.js";
 
 // change user role
