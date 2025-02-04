@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
 function Home() {
-  const user = useSelector((state) => state.user);
+  const state = useSelector((state) => state);
   function foo() {
-    console.log("foo:", user);
+    console.log("foo:", state);
   }
   return (
     <div>
@@ -13,7 +13,7 @@ function Home() {
       >
         Check state
       </button>
-      {user.isLoggedIn && <div>Logged in</div>}
+      {state.user.isLoggedIn && <div>Logged in</div>}
     </div>
   );
 }

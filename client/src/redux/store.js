@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage/session";
 import userReducer from "./slices/userSlice";
+import ngoReducer from "./slices/ngoSlice";
 
 // Redux Persist configuration
 const persistConfig = {
@@ -15,6 +16,7 @@ const persistedReducer = persistReducer(persistConfig, userReducer);
 export const store = configureStore({
   reducer: {
     user: persistedReducer,
+    ngo: ngoReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -13,3 +13,5 @@ export { default as Users } from "./Dashboard/Users/Users";
 export { default as Campaigns } from "./Dashboard/Campaigns/Campaigns";
 export { default as CreateCampaign } from "./Dashboard/Campaigns/CreateCampaign/CreateCampaign";
 export { default as SingleCampaign } from "./Dashboard/Campaigns/SingleCampaign";
+export { default as CreateNgo } from "./Dashboard/NGO/CreateNgo";
+export { default as UpdateNgo } from "./Dashboard/NGO/UpdateNgo";
