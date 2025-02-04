@@ -9,6 +9,9 @@ import {
   Register,
   Dashboard,
   Users,
+  Campaigns,
+  CreateCampaign,
+  SingleCampaign,
 } from "./pages";
 export default function App() {
   return (
@@ -22,6 +25,11 @@ export default function App() {
           <Route path="dashboard" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="users" element={<Users />} />
+            <Route path="campaigns">
+              <Route index element={<Campaigns />} />
+              <Route path="create" element={<CreateCampaign />} />
+              <Route path=":id" element={<SingleCampaign />} />
+            </Route>
             <Route path="*" element={<NoPage />} />
           </Route>
           <Route path="*" element={<NoPage />} />

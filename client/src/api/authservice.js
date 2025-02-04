@@ -46,3 +46,12 @@ export const fetchUserFromToken = async () => {
     throw errorMessage;
   }
 };
+
+export const fetchAllUsers = async () => {
+  try {
+    const response = await api.get("/auth/users");
+    return response.data;
+  } catch (error) {
+    throw error.response?.data?.message || "Something went wrong!";
+  }
+};
