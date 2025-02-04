@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { Outlet, Link } from "react-router";
+import { DeleteNGOBtn } from "../../components";
 
 function DashboardLayout() {
   const user = useSelector((state) => state.user);
@@ -40,16 +41,57 @@ function DashboardLayout() {
                     Your Campaigns
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    className="font-thin text-xl border-b border-transparent hover:border-gray-900 transition-all duration-200 ease-in"
+                    to="/dashboard/users"
+                  >
+                    Volunteers
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="font-thin text-xl border-b border-transparent hover:border-gray-900 transition-all duration-200 ease-in"
+                    to="/dashboard/update-ngo"
+                  >
+                    Update NGO
+                  </Link>
+                </li>
+                <li>
+                  <DeleteNGOBtn />
+                </li>
               </>
             )}
-            <li>
-              <Link
-                className="font-thin text-xl border-b border-transparent hover:border-gray-900 transition-all duration-200 ease-in"
-                to="/dashboard/users"
-              >
-                Volunteers
-              </Link>
-            </li>
+            {userInfo.role === "volunteer" && (
+              <li>
+                <Link
+                  className="font-thin text-xl border-b border-transparent hover:border-gray-900 transition-all duration-200 ease-in"
+                  to="/dashboard/create-ngo"
+                >
+                  Create NGO
+                </Link>
+              </li>
+            )}
+            {userInfo.role === "dev" && (
+              <>
+                <li>
+                  <Link
+                    className="font-thin text-xl border-b border-transparent hover:border-gray-900 transition-all duration-200 ease-in"
+                    to="/dashboard/ngos"
+                  >
+                    All NGOs
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="font-thin text-xl border-b border-transparent hover:border-gray-900 transition-all duration-200 ease-in"
+                    to="/dashboard/users"
+                  >
+                    Users
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
 

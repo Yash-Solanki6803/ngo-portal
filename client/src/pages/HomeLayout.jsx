@@ -2,7 +2,9 @@ import { Outlet, Link } from "react-router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserFromToken } from "../api/authservice";
+import { getNgoById } from "../api/ngoService";
 import { setUserInfo } from "../redux/slices/userSlice";
+import { setNgoInfo } from "../redux/slices/ngoSlice";
 import { Logout } from "../components";
 
 const HomeLayout = () => {
@@ -14,8 +16,12 @@ const HomeLayout = () => {
       if (!isLoggedIn && token) {
         try {
           const data = await fetchUserFromToken();
-          //set data to redux store
           dispatch(setUserInfo(data));
+          if (data.ngoId) {
+            const ngoData = await getNgoById(data.ngoId);
+            dispatch(setNgoInfo(ngoData.ngo));
+          }
+          //set data to redux store
         } catch (error) {
           console.error("Error fetching user from token:", error);
         }

@@ -12,6 +12,8 @@ import {
   Campaigns,
   CreateCampaign,
   SingleCampaign,
+  CreateNgo,
+  UpdateNgo,
 } from "./pages";
 export default function App() {
   return (
@@ -25,6 +27,9 @@ export default function App() {
           <Route path="dashboard" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="users" element={<Users />} />
+            <Route path="update-ngo" element={<UpdateNgo />} />
+            <Route path="create-ngo" element={<CreateNgo />} />
+
             <Route path="campaigns">
               <Route index element={<Campaigns />} />
               <Route path="create" element={<CreateCampaign />} />
