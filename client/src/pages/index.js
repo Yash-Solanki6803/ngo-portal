@@ -11,5 +11,5 @@ export { default as Login } from "./Login";
 export { default as Dashboard } from "./Dashboard/Dashboard";
 export { default as Users } from "./Dashboard/Users/Users";
 export { default as Campaigns } from "./Dashboard/Campaigns/Campaigns";
-export { default as CreateCampaign } from "./Dashboard/Campaigns/CreateCampaign";
+export { default as CreateCampaign } from "./Dashboard/Campaigns/CreateCampaign/CreateCampaign";
 export { default as SingleCampaign } from "./Dashboard/Campaigns/SingleCampaign";
