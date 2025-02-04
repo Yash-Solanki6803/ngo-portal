@@ -52,6 +52,7 @@ export const deleteNgo = async (req, res) => {
     // Update the user's role to "volunteer"
     const user = await User.findById(req.user._id);
     user.role = "volunteer";
+    user.ngoId = null;
     await user.save();
 
     res.status(200).json({ message: "Ngo deleted successfully" });
