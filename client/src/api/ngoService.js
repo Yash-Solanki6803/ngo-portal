@@ -19,3 +19,13 @@ export const deleteNgo = async (id) => {
     return error.response.data;
   }
 };
+
+//Get NGO data from ngoId
+export const getNgoById = async (id) => {
+  try {
+    const response = await api.get(`/ngos/${id}`);
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

@@ -6,17 +6,27 @@ import ngoReducer from "./slices/ngoSlice";
 
 // Redux Persist configuration
 const persistConfig = {
-  key: "root", // Key for localStorage
+  key: "root",
+  storage,
+};
+
+const persistUserConfig = {
+  key: "user", // Key for localStorage
+  storage, // Storage type (localStorage)
+};
+const persistNgoConfig = {
+  key: "ngo", // Key for localStorage
   storage, // Storage type (localStorage)
 };
 
-const persistedReducer = persistReducer(persistConfig, userReducer);
+const persistedUserReducer = persistReducer(persistUserConfig, userReducer);
+const persistedNgoReducer = persistReducer(persistNgoConfig, ngoReducer);
 
 // Create store with middleware ignoring persist actions
 export const store = configureStore({
   reducer: {
-    user: persistedReducer,
-    ngo: ngoReducer,
+    user: persistedUserReducer,
+    ngo: persistedNgoReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { createNgo } from "../../../api/ngoService";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUserInfo } from "../../../redux/slices/userSlice";
 import { setNgoInfo } from "../../../redux/slices/ngoSlice";
 
 function CreateNgo() {
-  const ngoInfo = useSelector((state) => state.ngo);
   const dispatch = useDispatch();
   const initialNgoState = {
     name: "",
@@ -41,11 +40,9 @@ function CreateNgo() {
     } else {
       try {
         const data = await createNgo(ngo);
-        console.log("NGO data:", data.ngo);
         //Update the ngo state and user state in the redux store
         dispatch(setUserInfo(data.user));
         dispatch(setNgoInfo(data.ngo));
-        console.log("Ngo in State", ngoInfo);
       } catch (error) {
         setError(error);
       } finally {

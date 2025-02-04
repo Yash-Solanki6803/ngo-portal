@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { Outlet, Link } from "react-router";
+import { DeleteNGOBtn } from "../../components";
 
 function DashboardLayout() {
   const user = useSelector((state) => state.user);
@@ -53,16 +54,11 @@ function DashboardLayout() {
                     className="font-thin text-xl border-b border-transparent hover:border-gray-900 transition-all duration-200 ease-in"
                     to="/dashboard/update-ngo"
                   >
-                    Volunteers
+                    Update NGO
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    className="font-thin text-xl border-b border-transparent hover:border-gray-900 transition-all duration-200 ease-in"
-                    to="/dashboard/delete-ngo"
-                  >
-                    Volunteers
-                  </Link>
+                  <DeleteNGOBtn />
                 </li>
               </>
             )}
