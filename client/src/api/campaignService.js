@@ -9,3 +9,13 @@ export const createCampaign = async (campaign) => {
     throw new Error(error?.response?.data?.message || "Something went wrong");
   }
 };
+
+//get campaigns of an ngo
+export const getCampaigns = async (ngoId) => {
+  try {
+    const response = await api.get(`/campaigns?ngoId=${ngoId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error?.response?.data?.message || "Something went wrong");
+  }
+};
