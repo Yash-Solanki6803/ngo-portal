@@ -47,6 +47,7 @@ function CreateNgo() {
         setError(error);
       } finally {
         setLoading(false);
+        setNgo(initialNgoState);
       }
     }
   };
