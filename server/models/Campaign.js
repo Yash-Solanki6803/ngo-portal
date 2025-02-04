@@ -16,6 +16,10 @@ const campaignSchema = new mongoose.Schema({
     enum: ["upcoming", "ongoing", "completed"],
     required: true,
   },
+  ngoId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Ngo",
+  },
   volunteers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // Volunteers who registered
   createdAt: { type: Date, default: Date.now },
 });
