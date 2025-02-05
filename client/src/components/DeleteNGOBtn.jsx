@@ -3,13 +3,15 @@ import { deleteNgo } from "../api/ngoService";
 import { clearNgoInfo } from "../redux/slices/ngoSlice";
 import { clearUserInfo } from "../redux/slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { Navigate } from "react-router";
+import { useNavigate } from "react-router";
 
 function DeleteNGOBtn() {
   const ngoId = useSelector((state) => state.ngo._id);
   const dispatch = useDispatch();
-  const navigate = Navigate();
-  const handleDelete = async () => {
+  const navigate = useNavigate();
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    console.log("deleteBtn:", ngoId);
     try {
       const data = await deleteNgo(ngoId);
       console.log("deletedBtn:", data);

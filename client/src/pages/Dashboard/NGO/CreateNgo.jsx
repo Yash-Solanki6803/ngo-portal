@@ -6,16 +6,14 @@ import { setNgoInfo } from "../../../redux/slices/ngoSlice";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Navigate } from "react-router";
+import { useNavigate } from "react-router";
 
 function CreateNgo() {
   const dispatch = useDispatch();
@@ -30,7 +28,7 @@ function CreateNgo() {
   const [ngo, setNgo] = useState(initialNgoState);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const navigate = Navigate();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setNgo({ ...ngo, [e.target.name]: e.target.value });
@@ -39,7 +37,7 @@ function CreateNgo() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(ngo);
+
     if (
       !ngo.name ||
       !ngo.description ||
@@ -90,14 +88,7 @@ function CreateNgo() {
             </div>
             <div className="w-full  py-4 flex flex-col gap-1.5">
               <Label htmlFor="description">Description</Label>
-              {/* <textarea
-                className="px-6 py-2 w-4/5 text-xl font-light focus-within:outline-none rounded-md"
-                rows={10}
-                id="description"
-                name="description"
-                value={ngo.description}
-                onChange={handleChange}
-              /> */}
+
               <Textarea
                 rows={10}
                 id="description"
