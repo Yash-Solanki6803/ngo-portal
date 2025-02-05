@@ -3,3 +3,4 @@ export { default as UserCard } from "./UserCard";
 export { default as CampaignCard } from "./CampaignCard";
 export { default as DeleteNGOBtn } from "./DeleteNGOBtn";
 export { default as AppSidebar } from "./app-sidebar";
+export { default as DatePicker } from "./DatePicker";
