@@ -6,6 +6,7 @@ import { getNgoById } from "../api/ngoService";
 import { setUserInfo } from "../redux/slices/userSlice";
 import { setNgoInfo } from "../redux/slices/ngoSlice";
 import { Logout } from "../components";
+import { Button } from "@/components/ui/button";
 
 const HomeLayout = () => {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ const HomeLayout = () => {
 
   return (
     <main className="h-screen flex flex-col">
-      <nav className="border flex justify-between px-24 py-6 items-center">
+      <nav className="border flex justify-between px-24 py-6 items-center relative">
         <ul className="flex gap-10">
           <li>
             <Link to="/">Home</Link>
