@@ -20,6 +20,16 @@ export const deleteNgo = async (id) => {
   }
 };
 
+//Update NGO
+export const updateNgo = async (data) => {
+  try {
+    const response = await api.put(`/ngo/update/${data.id}`, data);
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
 //Get NGO data from ngoId
 export const getNgoById = async (id) => {
   try {

@@ -11,11 +11,11 @@ import {
 } from "@/components/ui/sidebar";
 import { Link } from "react-router";
 
-export function AppSidebar({ items }) {
+export default function AppSidebar({ items }) {
   return (
-    <Sidebar collapsible="none">
-      <SidebarInset>
-        <SidebarContent className="px-4 py-10 shadow-2xl">
+    <Sidebar className="" collapsible="none">
+      <SidebarInset className="">
+        <SidebarContent className=" px-4 py-10 shadow-2xl">
           <SidebarGroup>
             <SidebarGroupLabel className="text-2xl text-gray-800 pb-4 rounded-none border-b">
               NGO Portal

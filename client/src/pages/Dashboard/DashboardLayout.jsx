@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
 import { Outlet, Link } from "react-router";
-import { DeleteNGOBtn } from "../../components";
+import { AppSidebar } from "../../components";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
 
-import { AppSidebar } from "@/components/app-sidebar";
+// import { AppSidebar } from "@/src/components/app-sidebar";
 
 function DashboardLayout() {
   const user = useSelector((state) => state.user);
@@ -49,7 +49,7 @@ function DashboardLayout() {
       icon: Search,
     },
     {
-      title: "Update NGO",
+      title: "Manage NGO",
       url: "/dashboard/update-ngo",
       icon: Settings,
     },
@@ -82,7 +82,7 @@ function DashboardLayout() {
   }
 
   return (
-    <SidebarProvider className="relative  h-full overflow-y-hidden">
+    <SidebarProvider className="relative flex h-full">
       <AppSidebar items={items} />
       <section className="flex  w-full">
         <Outlet />

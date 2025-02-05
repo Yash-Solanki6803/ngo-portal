@@ -19,6 +19,7 @@ const HomeLayout = () => {
           const data = await fetchUserFromToken();
           dispatch(setUserInfo(data));
           if (data.ngoId) {
+            console.log("fetching ngo data");
             const ngoData = await getNgoById(data.ngoId);
             dispatch(setNgoInfo(ngoData.ngo));
           }
@@ -34,7 +35,7 @@ const HomeLayout = () => {
 
   return (
     <main className="h-screen flex flex-col">
-      <nav className="border flex justify-between px-24 py-6 items-center relative">
+      <nav className="border flex justify-between px-24 py-6 items-center relative shadow-xl">
         <ul className="flex gap-10">
           <li>
             <Link to="/">Home</Link>
