@@ -1,15 +1,25 @@
-// Dummy input
-// {
-//     "name": "Tree Plantation Drive",
-//     "description": "A campaign to plant 500 trees in the city park to promote environmental awareness.",
-//     "location": "Ahmedabad, Gujarat",
-//     "startDate": "2025-03-15T09:00:00Z",
-//     "endDate": "2025-03-20T18:00:00Z",
-//     "status": "upcoming"
-//   }
-
 import { useState } from "react";
 import { createCampaign } from "../../../../api/campaignService";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { DatePicker } from "@/src/components";
+import { useNavigate } from "react-router";
 
 function CreateCampaign() {
   const initialCampaignState = {
@@ -23,6 +33,7 @@ function CreateCampaign() {
   const [campaign, setCampaign] = useState(initialCampaignState);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setCampaign({ ...campaign, [e.target.name]: e.target.value });
@@ -50,110 +61,108 @@ function CreateCampaign() {
         setError(error);
       } finally {
         setLoading(false);
+        navigate("/dashboard");
       }
     }
   };
 
   return (
     <section className="w-full px-10 py-6 flex flex-col gap-6">
-      <div className="flex justify-between items-end">
-        <h3 className="text-3xl font-semibold">Create Campaign</h3>
-        <p className="text-red-500 text-lg -mb-4">{error}</p>
-      </div>
-      <form className=" h-full bg-gray-200 shadow-xl rounded-xl px-10 py-4 flex flex-col items-end">
-        <div className="w-full border-b py-4 flex  items-center">
-          <label className="w-1/5 text-xl font-light" htmlFor="name">
-            Name
-          </label>
-          <input
-            className="px-6 py-2 w-4/5 text-xl font-light focus-within:outline-none rounded-md"
-            type="text"
-            id="name"
-            name="name"
-            value={campaign.name}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="w-full border-b py-4 flex  items-start">
-          <label className="w-1/5 text-xl font-light" htmlFor="description">
-            Description
-          </label>
-          <textarea
-            className="px-6 py-2 w-4/5 text-xl font-light focus-within:outline-none rounded-md"
-            rows={10}
-            id="description"
-            name="description"
-            value={campaign.description}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="w-full border-b py-4 flex  items-center">
-          <label className="w-1/5 text-xl font-light" htmlFor="location">
-            Location
-          </label>
-          <input
-            className="px-6 py-2 w-4/5 text-xl font-light focus-within:outline-none rounded-md"
-            type="text"
-            id="location"
-            name="location"
-            value={campaign.location}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="flex  w-full border-b">
-          <div className="w-1/2 py-4 flex items-center ">
-            <label className="w-2/5 text-xl font-light" htmlFor="startDate">
-              Start Date
-            </label>
-            <input
-              className="px-6 py-2 w-3/5 text-xl font-light focus-within:outline-none rounded-md"
-              type="datetime-local"
-              id="startDate"
-              name="startDate"
-              value={campaign.startDate}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="w-1/2  py-4 flex items-center">
-            <label className="w-2/5 ml-10 text-xl font-light" htmlFor="endDate">
-              End Date
-            </label>
-            <input
-              className="px-6 py-2 w-3/5 text-xl font-light focus-within:outline-none rounded-md"
-              type="datetime-local"
-              id="endDate"
-              name="endDate"
-              value={campaign.endDate}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        {/* Status */}
-        <div className="w-full border-b py-4 flex  items-center">
-          <label className="w-1/5 text-xl font-light" htmlFor="status">
-            Status
-          </label>
-          <select
-            className="px-10 py-2 w-4/5 text-xl font-light focus-within:outline-none rounded-md"
-            id="status"
-            name="status"
-            value={campaign.status}
-            onChange={handleChange}
-          >
-            <option value="upcoming">Upcoming</option>
-            <option value="ongoing">Ongoing</option>
-            <option value="completed">Completed</option>
-          </select>
-        </div>
-        <button
-          className="border bg-gray-900 text-white px-6 py-4 rounded-lg"
-          type="submit"
-          disabled={loading}
-          onClick={handleSubmit}
-        >
-          Create Campaign
-        </button>
-      </form>
+      <Card className="h-full shadow-2xl px-10 py-4">
+        <form className=" h-full  flex flex-col ">
+          <CardHeader className="flex-row justify-between border-b border-gray-400 relative">
+            <h3 className="text-3xl font-semibold">Create Campaign</h3>
+            <p className="text-red-500 text-lg absolute right-0 bottom-0">
+              {error}
+            </p>
+          </CardHeader>
+          <CardContent>
+            <div className="w-full  py-4 flex flex-col gap-1.5">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                type="text"
+                id="name"
+                name="name"
+                value={campaign.name}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="w-full  py-4 flex flex-col gap-1.5">
+              <Label htmlFor="description">Description</Label>
+              <Textarea
+                rows={10}
+                id="description"
+                name="description"
+                value={campaign.description}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="w-full  py-4 flex gap-1.5">
+              <div className="w-1/2 flex flex-col gap-1.5">
+                <Label htmlFor="location">Location</Label>
+                <Input
+                  type="text"
+                  id="location"
+                  name="location"
+                  value={campaign.location}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="w-1/2 flex flex-col gap-1.5">
+                <Label htmlFor="status">Status</Label>
+                <Select
+                  name="status"
+                  onValueChange={(selection) => {
+                    if (selection) {
+                      handleChange({
+                        target: { name: "status", value: selection },
+                      });
+                    }
+                  }}
+                  value={campaign.status}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="upcoming">Upcoming</SelectItem>
+                    <SelectItem value="ongoing">Ongoing</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="flex  w-1/2">
+              <div className="w-1/2 py-4 flex flex-col gap-1.5 ">
+                <Label htmlFor="startDate">Start Date</Label>
+                <DatePicker
+                  name="startDate"
+                  date={campaign.startDate}
+                  setDate={handleChange}
+                />
+              </div>
+              <div className="w-1/2  py-4 flex  flex-col gap-1.5">
+                <Label htmlFor="endDate">End Date</Label>
+                <DatePicker
+                  name="endDate"
+                  date={campaign.endDate}
+                  setDate={handleChange}
+                />
+              </div>
+            </div>
+          </CardContent>
+          <CardFooter className="border-t border-gray-400 h-full">
+            <Button
+              className="border bg-gray-900 text-white px-6 py-4 rounded-lg"
+              type="submit"
+              disabled={loading}
+              onClick={handleSubmit}
+            >
+              Create Campaign
+            </Button>
+          </CardFooter>
+        </form>
+      </Card>
     </section>
   );
 }
