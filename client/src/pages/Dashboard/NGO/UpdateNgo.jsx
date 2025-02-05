@@ -1,7 +1,12 @@
-import React from "react";
+import { DeleteNGOBtn } from "@/src/components";
 
 function UpdateNgo() {
-  return <div>UpdateNgo</div>;
+  return (
+    <div>
+      UpdateNgo
+      <DeleteNGOBtn />
+    </div>
+  );
 }
 
 export default UpdateNgo;

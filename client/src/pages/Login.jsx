@@ -3,6 +3,8 @@ import { loginUser } from "../api/authservice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { setUserInfo } from "../redux/slices/userSlice";
+import { getNgoById } from "../api/ngoService";
+import { setNgoInfo } from "../redux/slices/ngoSlice";
 
 function Login() {
   const initialFormValues = {
@@ -26,8 +28,11 @@ function Login() {
       const data = await loginUser(formData.email, formData.password);
       // Store token or redirect
       localStorage.setItem("auth_token", data.token);
-
       dispatch(setUserInfo(data.userWithoutPassword));
+      if (data.userWithoutPassword.ngoId) {
+        const ngoData = await getNgoById(data.userWithoutPassword.ngoId);
+        dispatch(setNgoInfo(ngoData.ngo));
+      }
       navigate("/");
     } catch (err) {
       setError(err);
