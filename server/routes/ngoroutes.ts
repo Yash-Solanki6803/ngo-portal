@@ -1,16 +1,13 @@
-import express from "express";
-import {
-  authMiddleware,
-  roleMiddleware,
-} from "../middleware/authMiddleware.js";
+import { Router } from "express";
+import { authMiddleware, roleMiddleware } from "../middleware/authMiddleware";
 import {
   createNgo,
   deleteNgo,
   getAllNgos,
   getNgoById,
   updateNgo,
-} from "../controller/ngoController.js";
-const router = express.Router();
+} from "../controller/ngoController";
+const router = Router();
 
 //Create ngo
 router.post(
