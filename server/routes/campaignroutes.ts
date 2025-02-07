@@ -1,4 +1,4 @@
-import express from "express";
+import { Router } from "express";
 import {
   createCampaign,
   getAllCampaigns,
@@ -8,13 +8,10 @@ import {
   deleteCampaign,
   updateCampaign,
   getUsersForCampaign,
-} from "../controller/campaignController.js";
-import {
-  authMiddleware,
-  roleMiddleware,
-} from "../middleware/authMiddleware.js";
+} from "../controller/campaignController";
+import { authMiddleware, roleMiddleware } from "../middleware/authMiddleware";
 
-const router = express.Router();
+const router = Router();
 
 //Create campaign
 router.post(
