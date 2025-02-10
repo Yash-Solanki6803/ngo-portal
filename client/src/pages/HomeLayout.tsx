@@ -2,15 +2,17 @@ import { Outlet, Link } from "react-router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserFromToken } from "../api/authservice";
+// import { getNgoById } from "../api/ngoService";
 import { getNgoById } from "../api/ngoService";
 import { setUserInfo } from "../redux/slices/userSlice";
 import { setNgoInfo } from "../redux/slices/ngoSlice";
 import { Logout } from "../components";
 import { Button } from "@/components/ui/button";
+import { AppDispatch, RootState } from "../redux/store";
 
-const HomeLayout = () => {
-  const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+const HomeLayout: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
   const token = localStorage.getItem("auth_token");
   useEffect(() => {
     const fetchData = async () => {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createCampaign } from "../../../../api/campaignService";
+import { createCampaign } from "@/src/api/campaignService";
 import {
   Card,
   CardContent,

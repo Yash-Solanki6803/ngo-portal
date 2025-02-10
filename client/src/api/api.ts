@@ -1,4 +1,8 @@
-import axios from "axios";
+import axios, {
+  AxiosResponse,
+  AxiosError,
+  InternalAxiosRequestConfig,
+} from "axios";
 
 // Create an Axios instance
 const api = axios.create({
@@ -8,28 +12,33 @@ const api = axios.create({
 
 // Add a request interceptor
 api.interceptors.request.use(
-  (config) => {
+  (config: InternalAxiosRequestConfig) => {
     // You can attach auth tokens here
     const token = localStorage.getItem("auth_token");
-    if (token) {
+    if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => Promise.reject(error) // Handle errors before request is sent
+  (error: AxiosError) => Promise.reject(error) // Handle errors before request is sent
 );
 
 // Add a response interceptor
 api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    // Handle errors globally (e.g., log out on 401)
+  (response: AxiosResponse) => response,
+  (error: AxiosError) => {
     if (error.response?.status === 401) {
       console.error("Unauthorized! Redirecting to login...");
-      // Add logout logic if needed
     }
     return Promise.reject(error);
   }
 );
+
+export const handleApiError = (error: unknown): never => {
+  const errorMessage =
+    (error as AxiosError<{ message: string }>)?.response?.data?.message ||
+    "Something went wrong!";
+  throw new Error(errorMessage);
+};
 
 export default api;

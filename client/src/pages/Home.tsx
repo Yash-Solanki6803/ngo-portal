@@ -1,7 +1,8 @@
 import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
+import { RootState } from "../redux/store";
 function Home() {
-  const state = useSelector((state) => state);
+  const state = useSelector((state: RootState) => state);
   function foo() {
     console.log("foo:", state);
   }

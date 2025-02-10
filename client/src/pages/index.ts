@@ -1,5 +1,5 @@
 // Layouts
-export { default as HomeLayout } from "./HomeLayout";
+export { default as HomeLayout } from "./HomeLayout.tsx";
 export { default as DashboardLayout } from "./Dashboard/DashboardLayout";
 
 // Pages

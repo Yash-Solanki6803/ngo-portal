@@ -1,47 +1,59 @@
-import { useState } from "react";
-import { loginUser } from "../api/authservice";
+import { useState, ChangeEvent, FormEvent } from "react";
+import { loginUser, AuthUserResponse } from "../api/authservice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { setUserInfo } from "../redux/slices/userSlice";
 import { getNgoById } from "../api/ngoService";
 import { setNgoInfo } from "../redux/slices/ngoSlice";
+import { AppDispatch, RootState } from "../redux/store";
+import { APIResponse } from "../types/api";
 
 function Login() {
   const initialFormValues = {
     email: "",
     password: "",
   };
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [formData, setFormData] = useState(initialFormValues);
   const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState(initialFormValues);
 
-  const handleSubmit = async (e) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
 
     try {
-      const data = await loginUser(formData.email, formData.password);
+      const response: AuthUserResponse = await loginUser(
+        formData.email,
+        formData.password
+      );
       // Store token or redirect
-      localStorage.setItem("auth_token", data.token);
-      dispatch(setUserInfo(data.userWithoutPassword));
-      if (data.userWithoutPassword.ngoId) {
-        const ngoData = await getNgoById(data.userWithoutPassword.ngoId);
-        dispatch(setNgoInfo(ngoData.ngo));
+      if (
+        response.status !== 200 ||
+        !response.data.token ||
+        !response.data.user
+      ) {
+        throw new Error(response.data.message);
+      }
+      localStorage.setItem("auth_token", response.data.token);
+      dispatch(setUserInfo(response.data.user));
+
+      if (response.data.user.ngoId) {
+        const ngoResponse = await getNgoById(response.data.user.ngoId);
+        dispatch(setNgoInfo(ngoResponse.data.ngo));
       }
       navigate("/");
-    } catch (err) {
+    } catch (err: any) {
       setError(err);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,

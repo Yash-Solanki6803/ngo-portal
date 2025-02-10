@@ -27,7 +27,7 @@ export const authMiddleware = async (
       process.env.JWT_SECRET as string
     ) as DecodedToken;
 
-    const user = await User.findById(decoded._id).select("_id role");
+    const user = await User.findById(decoded._id);
 
     if (!user) {
       res.status(401).json({ message: "Unauthorized" });

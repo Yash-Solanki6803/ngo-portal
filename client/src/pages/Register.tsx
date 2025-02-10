@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { registerUser } from "../api/authservice";
+import { useState, FormEvent, ChangeEvent } from "react";
+import { AuthUserResponse, registerUser } from "../api/authservice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { setUserInfo } from "../redux/slices/userSlice";
+import { setNgoInfo } from "../redux/slices/ngoSlice";
+import { getNgoById } from "../api/ngoService";
 
 function Register() {
   const initialFormValues = {
@@ -18,30 +20,45 @@ function Register() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
 
     try {
-      const response = await registerUser(
+      const response: AuthUserResponse = await registerUser(
         formData.name,
         formData.email,
         formData.password
       );
-      if (response.status == 201) {
-        alert("User registered! Please login with your credentials");
-        navigate("/login");
-      } else {
+      console.log(response.data);
+      if (
+        response.status !== 200 ||
+        !response.data.token ||
+        !response.data.user
+      ) {
+        throw new Error(response.data.message);
       }
-    } catch (err) {
+
+      localStorage.setItem("auth_token", response.data.token);
+      dispatch(setUserInfo(response.data.user));
+
+      if (response.data.user.ngoId) {
+        const ngoResponse = await getNgoById(response.data.user.ngoId);
+        if (ngoResponse.status !== 200 || !ngoResponse.data.ngo) {
+          throw new Error(ngoResponse.data.message);
+        }
+        dispatch(setNgoInfo(ngoResponse.data.ngo));
+      }
+      navigate("/");
+    } catch (err: any) {
       setError(err);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,

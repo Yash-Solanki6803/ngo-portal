@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router";
+import React from "react";
 import {
   DashboardLayout,
   HomeLayout,
@@ -15,7 +16,7 @@ import {
   CreateNgo,
   UpdateNgo,
 } from "./pages";
-export default function App() {
+const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -42,4 +43,6 @@ export default function App() {
       </Routes>
     </BrowserRouter>
   );
-}
+};
+
+export default App;

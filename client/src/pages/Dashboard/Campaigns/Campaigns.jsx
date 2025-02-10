@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getCampaigns } from "../../../api/campaignService";
+import { getCampaigns } from "@/src/api/campaignService";
 import { CampaignCard } from "../../../components";
 
 function Campaigns() {
