@@ -5,9 +5,9 @@ import { Request, Response } from "express";
 
 interface RegisterUserInterface extends Request {
   body: {
-    name: string | undefined;
-    email: string | undefined;
-    password: string | undefined;
+    name: string;
+    email: string;
+    password: string;
   };
 }
 
@@ -49,7 +49,33 @@ export const register = async (req: RegisterUserInterface, res: Response) => {
 
     const newUser = new User({ name, email, password, role });
     await newUser.save();
-    res.status(201).json({ message: "User registered successfully" });
+
+    /// Create JWT token using the type JWT_Payload
+    const payload: JWT_Payload = { _id: newUser._id };
+    const secretKey = process.env.JWT_SECRET;
+    if (!secretKey) {
+      res.status(500).json({
+        message: "JWT_SECRET is not defined in environment variables",
+      });
+      return;
+    }
+    const expiresIn = process.env.JWT_EXPIRATION
+      ? parseInt(process.env.JWT_EXPIRATION, 10)
+      : "1h";
+    const token = jwt.sign(payload, secretKey, { expiresIn });
+
+    //Set token in cookie as auth_token
+    res.cookie("auth_token", token, {
+      httpOnly: true,
+      secure: false,
+    });
+
+    //Return token and the user but not the password
+    const { password: _, ...userWithoutPassword } = newUser.toObject(); // Convert Mongoose document to plain object
+
+    res
+      .status(200)
+      .json({ message: "Login successful", token, user: userWithoutPassword });
   } catch (error: any) {
     res.status(500).json({ message: error.message || "Server error" });
   }
@@ -89,6 +115,7 @@ export const login = async (req: LoginUserInterface, res: Response) => {
     const expiresIn = process.env.JWT_EXPIRATION
       ? parseInt(process.env.JWT_EXPIRATION, 10)
       : "1h";
+
     const token = jwt.sign(payload, secretKey, { expiresIn });
 
     //Set token in cookie as auth_token
@@ -102,7 +129,7 @@ export const login = async (req: LoginUserInterface, res: Response) => {
 
     res
       .status(200)
-      .json({ message: "Login successful", token, userWithoutPassword });
+      .json({ message: "Login successful", token, user: userWithoutPassword });
   } catch (error: any) {
     res.status(500).json({ message: error.message || "Server error" });
   }
@@ -114,7 +141,6 @@ export const getUser = async (req: Request, res: Response) => {
   try {
     // Get token from request header
     const token = req.headers.authorization?.split(" ")[1];
-
     if (!token) {
       res.status(401).json({ message: "Token not found" });
       return;
@@ -142,7 +168,13 @@ export const getUser = async (req: Request, res: Response) => {
       return;
     }
 
-    res.status(200).json(user);
+    // Return the user but not the password
+    const { password: _, ...userWithoutPassword } = user.toObject(); // Convert Mongoose document to plain object
+
+    res.status(200).json({
+      message: "User found",
+      user: userWithoutPassword,
+    });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
@@ -165,7 +197,13 @@ export const getUserById = async (req: GetUserByIdInterface, res: Response) => {
       return;
     }
 
-    res.status(200).json(user);
+    // Return the user but not the password
+    const { password: _, ...userWithoutPassword } = user.toObject(); // Convert Mongoose document to plain object
+
+    res.status(200).json({
+      message: "User found",
+      user: userWithoutPassword,
+    });
   } catch (err: any) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
@@ -176,7 +214,17 @@ export const getUserById = async (req: GetUserByIdInterface, res: Response) => {
 export const getAllUser = async (req: Request, res: Response) => {
   try {
     const users = await User.find();
-    res.status(200).json(users);
+
+    // Return the user but not the password
+    const usersWithoutPassword = users.map((user) => {
+      const { password: _, ...userWithoutPassword } = user.toObject();
+      return userWithoutPassword;
+    });
+
+    res.status(200).json({
+      message: "Users found",
+      users: usersWithoutPassword,
+    });
   } catch (err: any) {
     console.error(err);
     res.status(500).json({ message: "Server error" });

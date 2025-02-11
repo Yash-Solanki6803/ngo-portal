@@ -20,8 +20,12 @@ router.post("/login", login);
 router.get("/user", authMiddleware, getUser);
 
 //Get user by ID
-
-router.get("/users/:id", authMiddleware, getUserById);
+router.get(
+  "/users/:id",
+  authMiddleware,
+  roleMiddleware("dev", "ngo"),
+  getUserById
+);
 
 //Get all user
 router.get("/users", authMiddleware, roleMiddleware("dev"), getAllUser);

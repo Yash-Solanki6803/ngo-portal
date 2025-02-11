@@ -13,7 +13,6 @@ export interface UserInterface extends Document {
 }
 
 const userSchema = new Schema<UserInterface>({
-  _id: Types.ObjectId,
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: {

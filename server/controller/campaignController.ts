@@ -5,12 +5,12 @@ import { Request, Response } from "express";
 
 interface CreateCampaignBody extends Request {
   body: {
-    name?: string;
-    description?: string;
-    location?: string;
-    startDate?: string;
-    endDate?: string;
-    status?: string;
+    name: string;
+    description: string;
+    location: string;
+    startDate: string;
+    endDate: string;
+    status: string;
   };
 }
 
@@ -82,6 +82,13 @@ export const createCampaign = async (
       return;
     }
 
+    if (req.user?.role !== "ngo" || !req.user?.ngoId) {
+      res
+        .status(403)
+        .json({ message: "Access forbidden: insufficient privileges" });
+      return;
+    }
+
     const newCampaign = new Campaign({
       name,
       description,
@@ -89,11 +96,14 @@ export const createCampaign = async (
       startDate,
       endDate,
       status,
-      createdBy: req.user?._id,
+      createdBy: req.user?.ngoId,
     });
 
     await newCampaign.save();
-    res.status(201).json({ message: "Campaign created successfully" });
+    res.status(201).json({
+      message: "Campaign created successfully",
+      campaign: newCampaign,
+    });
   } catch (error: any) {
     res.status(500).json({ message: error.message || "Server error" });
   }
