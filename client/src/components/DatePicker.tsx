@@ -34,8 +34,8 @@ export const DatePicker: React.FC<{
       <PopoverContent className="w-auto p-0" align="start">
         <Calendar
           mode="single"
-          selected={date}
-          onSelect={(date: Date) => {
+          selected={date instanceof Date ? date : undefined}
+          onSelect={(date) => {
             // The event object is not passed to the onSelect callback so we need to create a synthetic event object
             if (date) {
               setDate({ target: { name: name, value: date } });

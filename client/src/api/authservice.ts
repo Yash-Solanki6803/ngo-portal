@@ -51,7 +51,6 @@ export const loginUser = async (
 };
 
 export const fetchUserFromToken = async (): Promise<AuthUserResponse> => {
-  console.log("fetching user from token");
   try {
     const response = api.get("/auth/user", {
       withCredentials: true,
@@ -61,15 +60,6 @@ export const fetchUserFromToken = async (): Promise<AuthUserResponse> => {
     const errorMessage =
       (error as AxiosError<{ message: string }>)?.response?.data?.message ||
       "Something went wrong!";
-
-    // Check if the token is expired
-    if (errorMessage === "Token has expired") {
-      // Remove the expired token from localStorage
-      localStorage.removeItem("auth_token");
-
-      // Optionally redirect to the login page or show a modal/message
-      window.location.href = "/login"; // or redirect to login route
-    }
 
     throw errorMessage;
   }

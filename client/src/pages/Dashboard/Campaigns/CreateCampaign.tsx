@@ -36,14 +36,15 @@ export const CreateCampaign: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setCampaign({ ...campaign, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: SubmitEvent) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setLoading(true);
-    console.log(campaign);
     if (
       !campaign.name ||
       !campaign.description ||
@@ -58,7 +59,6 @@ export const CreateCampaign: React.FC = () => {
       try {
         const response = await createCampaign(campaign);
         const { data } = response;
-        console.log(data);
       } catch (error: any) {
         setError(error);
       } finally {

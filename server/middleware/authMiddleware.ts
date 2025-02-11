@@ -1,6 +1,7 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import { UserInterface, User } from "../models/User";
+import { JWT_Payload } from "../controller/authController";
 
 // Extend Request to include user property
 
@@ -22,11 +23,15 @@ export const authMiddleware = async (
       return;
     }
 
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET as string
-    ) as DecodedToken;
-
+    // Verify the token
+    const secretKey = process.env.JWT_SECRET;
+    if (!secretKey) {
+      res.status(500).json({
+        message: "JWT_SECRET is not defined in environment variables",
+      });
+      return;
+    }
+    const decoded = jwt.verify(token, secretKey) as JWT_Payload;
     const user = await User.findById(decoded._id);
 
     if (!user) {
@@ -36,6 +41,7 @@ export const authMiddleware = async (
 
     req.user = user;
     next();
+    res.json;
   } catch (error: any) {
     if (error.name === "TokenExpiredError") {
       res.status(401).json({ message: "Token has expired" });

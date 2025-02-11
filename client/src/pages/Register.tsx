@@ -31,7 +31,6 @@ export const Register: React.FC = () => {
         formData.email,
         formData.password
       );
-      console.log(response.data);
       if (
         response.status !== 200 ||
         !response.data.token ||

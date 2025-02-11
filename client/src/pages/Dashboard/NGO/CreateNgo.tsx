@@ -30,11 +30,13 @@ export const CreateNgo: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setNgo({ ...ngo, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: SubmitEvent) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setLoading(true);
 
@@ -128,7 +130,7 @@ export const CreateNgo: React.FC = () => {
                 <Label htmlFor="contactPhone">Phone</Label>
                 <Input
                   type="number"
-                  maxLength="10"
+                  maxLength={10}
                   id="contactPhone"
                   name="contactPhone"
                   value={ngo.contactPhone}

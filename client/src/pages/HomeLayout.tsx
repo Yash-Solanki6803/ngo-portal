@@ -1,4 +1,4 @@
-import { Outlet, Link } from "react-router";
+import { Outlet, Link, useNavigate } from "react-router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserFromToken } from "../api/authservice";
@@ -7,9 +7,11 @@ import { setUserInfo } from "../redux/slices/userSlice";
 import { setNgoInfo } from "../redux/slices/ngoSlice";
 import { Logout } from "@/components";
 import { AppDispatch, RootState } from "../redux/store";
+import { AxiosError } from "axios";
 
 export const HomeLayout: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
   const token = localStorage.getItem("auth_token");
   useEffect(() => {
@@ -24,20 +26,24 @@ export const HomeLayout: React.FC = () => {
 
           dispatch(setUserInfo(response.data.user));
           if (response.data.user.ngoId) {
-            console.log("fetching ngo data");
             const ngoResponse = await getNgoById(response.data.user.ngoId);
             if (ngoResponse.status === 200 && ngoResponse.data.ngo)
               dispatch(setNgoInfo(ngoResponse.data.ngo));
           }
           //set data to redux store
-        } catch (error) {
+        } catch (error: AxiosError | any) {
+          if (error.response.data.message === "Token has expired") {
+            localStorage.removeItem("auth_token");
+            navigate("/login");
+            return;
+          }
           console.error("Error fetching user from token:", error);
         }
       }
     };
 
     fetchData();
-  }, [dispatch, isLoggedIn, token]);
+  }, []);
 
   return (
     <main className="h-screen flex flex-col">

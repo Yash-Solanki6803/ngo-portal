@@ -7,7 +7,6 @@ export const Dashboard: React.FC = () => {
   const ngo = useSelector((state: RootState) => state.ngo);
   const userInfo = user.userInfo;
   const ngoInfo = ngo.ngoInfo;
-  console.log("Ngo: ", ngoInfo);
   if (!userInfo || !ngoInfo) {
     return <div>Loading...</div>;
   }

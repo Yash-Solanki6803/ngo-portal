@@ -5,18 +5,16 @@ import { clearUserInfo } from "@/redux/slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { RootState } from "@/redux/store";
-import React, { ChangeEvent } from "react";
+import React from "react";
 
 export const DeleteNGOBtn: React.FC = () => {
   const ngoId = useSelector((state: RootState) => state.ngo.ngoInfo?._id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleDelete = async (e: ChangeEvent<HTMLButtonElement>) => {
+  const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log("deleteBtn:", ngoId);
     try {
       const data = await deleteNgo(ngoId);
-      console.log("deletedBtn:", data);
       sessionStorage.clear();
       dispatch(clearNgoInfo());
       dispatch(clearUserInfo());

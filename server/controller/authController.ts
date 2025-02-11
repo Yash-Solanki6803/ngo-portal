@@ -48,7 +48,6 @@ export const register = async (req: RegisterUserInterface, res: Response) => {
     }
 
     const newUser = new User({ name, email, password, role });
-    console.log("newUser:", newUser);
     await newUser.save();
 
     /// Create JWT token using the type JWT_Payload
@@ -116,6 +115,7 @@ export const login = async (req: LoginUserInterface, res: Response) => {
     const expiresIn = process.env.JWT_EXPIRATION
       ? parseInt(process.env.JWT_EXPIRATION, 10)
       : "1h";
+
     const token = jwt.sign(payload, secretKey, { expiresIn });
 
     //Set token in cookie as auth_token
@@ -141,7 +141,6 @@ export const getUser = async (req: Request, res: Response) => {
   try {
     // Get token from request header
     const token = req.headers.authorization?.split(" ")[1];
-
     if (!token) {
       res.status(401).json({ message: "Token not found" });
       return;
