@@ -1,7 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -11,7 +10,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export default function DatePicker({ date, setDate, name }) {
+export const DatePicker: React.FC<{
+  date: Date | string | null;
+  setDate: (date: any) => void;
+  name: string;
+}> = ({ date, setDate, name }) => {
   const [open, setOpen] = useState(false); // Track popover state
 
   return (
@@ -32,7 +35,7 @@ export default function DatePicker({ date, setDate, name }) {
         <Calendar
           mode="single"
           selected={date}
-          onSelect={(date) => {
+          onSelect={(date: Date) => {
             // The event object is not passed to the onSelect callback so we need to create a synthetic event object
             if (date) {
               setDate({ target: { name: name, value: date } });
@@ -43,4 +46,4 @@ export default function DatePicker({ date, setDate, name }) {
       </PopoverContent>
     </Popover>
   );
-}
+};

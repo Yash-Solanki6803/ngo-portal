@@ -1,8 +1,14 @@
 import api, { handleApiError } from "./api";
 import { APIResponse } from "../types/api";
-import { AxiosResponse, AxiosError } from "axios";
 import { Campaign } from "../types/campaign";
 import { NGO } from "../types/ngo";
+
+export interface GetCampaignsResponse extends APIResponse {
+  data: {
+    message: string;
+    campaigns: Campaign[];
+  };
+}
 
 export interface CreateCampaignResponse extends APIResponse {
   data: {
@@ -30,7 +36,9 @@ export const createCampaign = async (
 };
 
 //get campaigns of an ngo
-export const getCampaigns = async (ngoId: NGO["_id"]): Promise<APIResponse> => {
+export const getCampaigns = async (
+  ngoId: NGO["_id"]
+): Promise<GetCampaignsResponse> => {
   try {
     const response = api.get(`/campaigns?ngoId=${ngoId}`);
     return response;

@@ -1,7 +1,5 @@
 import React from "react";
 
-function SingleCampaign() {
+export const SingleCampaign: React.FC = () => {
   return <div>SingleCampaign</div>;
-}
-
-export default SingleCampaign;
+};

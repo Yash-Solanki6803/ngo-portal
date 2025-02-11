@@ -1,11 +1,14 @@
 import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import React from "react";
 
-function Dashboard() {
-  const user = useSelector((state) => state.user);
-  const ngoInfo = useSelector((state) => state.ngo);
+export const Dashboard: React.FC = () => {
+  const user = useSelector((state: RootState) => state.user);
+  const ngo = useSelector((state: RootState) => state.ngo);
   const userInfo = user.userInfo;
-
-  if (!userInfo) {
+  const ngoInfo = ngo.ngoInfo;
+  console.log("Ngo: ", ngoInfo);
+  if (!userInfo || !ngoInfo) {
     return <div>Loading...</div>;
   }
 
@@ -28,6 +31,4 @@ function Dashboard() {
       </div>
     </div>
   );
-}
-
-export default Dashboard;
+};

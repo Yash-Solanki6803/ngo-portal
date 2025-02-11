@@ -1,29 +1,38 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { useEffect, useState } from "react";
-import { fetchAllUsers } from "../../../api/authservice";
-import { UserCard } from "../../../components";
-function Users() {
-  const user = useSelector((state) => state.user);
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { fetchAllUsers } from "@/api/authservice";
+import { UserCard } from "@/components";
+import { RootState } from "@/redux/store";
+import { User } from "@/types/user";
+export const Users: React.FC = () => {
+  const user = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
 
-  const [users, setUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState({
     show: false,
     email: "",
   });
-
   useEffect(() => {
     fetchUsers();
   }, []);
 
   const fetchUsers = async () => {
+    if (!user.isLoggedIn || !user.userInfo) {
+      navigate("/login");
+      return;
+    }
     switch (user.userInfo.role) {
       case "dev":
         try {
-          const users = await fetchAllUsers();
+          const response = await fetchAllUsers();
+          const users = response.data.users;
+          if (!users) {
+            throw new Error("No users found");
+          }
           setUsers(users);
           setFilteredUsers(users);
         } catch (error) {
@@ -41,7 +50,7 @@ function Users() {
     setLoading(false);
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     const filteredUsers = users.filter((user) =>
       user.email.toLowerCase().includes(query.toLowerCase())
@@ -68,7 +77,7 @@ function Users() {
             name={filteredUser.name}
             email={filteredUser.email}
             role={filteredUser.role}
-            userRole={user.userInfo.role}
+            userRole={user.userInfo?.role}
             showModal={showModal}
             setShowModal={setShowModal}
           />
@@ -76,6 +85,4 @@ function Users() {
       </div>
     </section>
   );
-}
-
-export default Users;
+};

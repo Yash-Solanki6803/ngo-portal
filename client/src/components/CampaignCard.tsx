@@ -1,18 +1,6 @@
-// {
-//     "_id": "67a0b37a9cef2693781500b0",
-//     "name": "Tree Plantation Drive",
-//     "description": "A campaign to plant 500 trees in the city park to promote environmental awareness.",
-//     "createdBy": "67a04f22576862ab605aa82a",
-//     "location": "Ahmedabad, Gujarat",
-//     "startDate": "2025-03-15T09:00:00.000Z",
-//     "endDate": "2025-03-20T18:00:00.000Z",
-//     "status": "ongoing",
-//     "volunteers": [],
-//     "createdAt": "2025-02-03T12:15:54.968Z",
-//     "__v": 2
-// },
+import { Campaign } from "@/types/campaign";
 
-function CampaignCard({
+export const CampaignCard: React.FC<Campaign> = ({
   name,
   description,
   location,
@@ -20,7 +8,7 @@ function CampaignCard({
   endDate,
   status,
   volunteers = [],
-}) {
+}) => {
   return (
     <div className="bg-gray-800 p-4  rounded-lg  text-gray-200  w-96 h-52 flex flex-col justify-between cursor-pointer shadow-2xl">
       <div>
@@ -49,6 +37,4 @@ function CampaignCard({
       </div>
     </div>
   );
-}
-
-export default CampaignCard;
+};

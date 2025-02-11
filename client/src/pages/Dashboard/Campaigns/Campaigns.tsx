@@ -1,18 +1,21 @@
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { getCampaigns } from "@/src/api/campaignService";
-import { CampaignCard } from "../../../components";
+import React, { useEffect, useState } from "react";
+import { getCampaigns } from "@/api/campaignService";
+import { CampaignCard } from "@/components";
+import { RootState } from "@/redux/store";
+import { Campaign } from "@/types/campaign";
 
-function Campaigns() {
-  const user = useSelector((state) => state.user);
-  const [campaigns, setCampaigns] = useState([]);
-  const ngoId = user.userInfo._id;
+export const Campaigns: React.FC = () => {
+  const user = useSelector((state: RootState) => state.user);
+  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
+  const ngoId = user.userInfo?._id;
   useEffect(() => {
     if (!ngoId) return;
     async function fetchCampaigns() {
       try {
-        const data = await getCampaigns(ngoId);
-        setCampaigns(data);
+        const response = await getCampaigns(ngoId);
+        const { data } = response;
+        setCampaigns(data.campaigns);
       } catch (error) {
         console.error("Error fetching campaigns: ", error);
       }
@@ -31,6 +34,4 @@ function Campaigns() {
       </div>
     </section>
   );
-}
-
-export default Campaigns;
+};

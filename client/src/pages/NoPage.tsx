@@ -1,7 +1,5 @@
 import React from "react";
 
-function NoPage() {
+export const NoPage: React.FC = () => {
   return <div>NoPage</div>;
-}
-
-export default NoPage;
+};

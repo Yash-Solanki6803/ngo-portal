@@ -1,8 +1,8 @@
-import { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { createNgo } from "../../../api/ngoService";
 import { useDispatch } from "react-redux";
-import { setUserInfo } from "../../../redux/slices/userSlice";
-import { setNgoInfo } from "../../../redux/slices/ngoSlice";
+import { setUserInfo } from "@/redux/slices/userSlice";
+import { setNgoInfo } from "@/redux/slices/ngoSlice";
 import {
   Card,
   CardContent,
@@ -15,7 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router";
 
-function CreateNgo() {
+export const CreateNgo: React.FC = () => {
   const dispatch = useDispatch();
   const initialNgoState = {
     name: "",
@@ -27,14 +27,14 @@ function CreateNgo() {
   };
   const [ngo, setNgo] = useState(initialNgoState);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNgo({ ...ngo, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
     setLoading(true);
 
@@ -51,11 +51,13 @@ function CreateNgo() {
       return;
     } else {
       try {
-        const data = await createNgo(ngo);
+        const response = await createNgo(ngo);
+        const { data } = response;
+        if (!data.user || !data.ngo) throw new Error("Error creating NGO");
         //Update the ngo state and user state in the redux store
         dispatch(setUserInfo(data.user));
         dispatch(setNgoInfo(data.ngo));
-      } catch (error) {
+      } catch (error: any) {
         setError(error);
       } finally {
         setLoading(false);
@@ -159,6 +161,4 @@ function CreateNgo() {
       </Card>
     </section>
   );
-}
-
-export default CreateNgo;
+};

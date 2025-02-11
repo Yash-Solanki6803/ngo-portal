@@ -1,7 +1,8 @@
 import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 import { RootState } from "../redux/store";
-function Home() {
+import React from "react";
+export const Home: React.FC = () => {
   const state = useSelector((state: RootState) => state);
   function foo() {
     console.log("foo:", state);
@@ -13,6 +14,4 @@ function Home() {
       {state.user.isLoggedIn && <div>Logged in</div>}
     </div>
   );
-}
-
-export default Home;
+};

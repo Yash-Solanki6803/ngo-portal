@@ -1,6 +1,6 @@
 import React from "react";
 
-function Logout() {
+export const Logout: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem("auth_token");
     sessionStorage.clear();
@@ -11,6 +11,4 @@ function Logout() {
       Logout
     </div>
   );
-}
-
-export default Logout;
+};

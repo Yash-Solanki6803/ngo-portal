@@ -2,15 +2,13 @@ import { Outlet, Link } from "react-router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserFromToken } from "../api/authservice";
-// import { getNgoById } from "../api/ngoService";
 import { getNgoById } from "../api/ngoService";
 import { setUserInfo } from "../redux/slices/userSlice";
 import { setNgoInfo } from "../redux/slices/ngoSlice";
-import { Logout } from "../components";
-import { Button } from "@/components/ui/button";
+import { Logout } from "@/components";
 import { AppDispatch, RootState } from "../redux/store";
 
-const HomeLayout: React.FC = () => {
+export const HomeLayout: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
   const token = localStorage.getItem("auth_token");
@@ -18,12 +16,18 @@ const HomeLayout: React.FC = () => {
     const fetchData = async () => {
       if (!isLoggedIn && token) {
         try {
-          const data = await fetchUserFromToken();
-          dispatch(setUserInfo(data));
-          if (data.ngoId) {
+          const response = await fetchUserFromToken();
+
+          if (response.status !== 200 || !response.data.user) {
+            throw new Error("User not found");
+          }
+
+          dispatch(setUserInfo(response.data.user));
+          if (response.data.user.ngoId) {
             console.log("fetching ngo data");
-            const ngoData = await getNgoById(data.ngoId);
-            dispatch(setNgoInfo(ngoData.ngo));
+            const ngoResponse = await getNgoById(response.data.user.ngoId);
+            if (ngoResponse.status === 200 && ngoResponse.data.ngo)
+              dispatch(setNgoInfo(ngoResponse.data.ngo));
           }
           //set data to redux store
         } catch (error) {
@@ -68,5 +72,3 @@ const HomeLayout: React.FC = () => {
     </main>
   );
 };
-
-export default HomeLayout;

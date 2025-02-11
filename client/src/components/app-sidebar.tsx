@@ -10,8 +10,10 @@ import {
   SidebarInset,
 } from "@/components/ui/sidebar";
 import { Link } from "react-router";
+import { item } from "@/pages/Dashboard/DashboardLayout";
+import React from "react";
 
-export default function AppSidebar({ items }) {
+export const AppSidebar: React.FC<{ items: item[] }> = ({ items }) => {
   return (
     <Sidebar className="" collapsible="none">
       <SidebarInset className="">
@@ -39,4 +41,4 @@ export default function AppSidebar({ items }) {
       </SidebarInset>
     </Sidebar>
   );
-}
+};

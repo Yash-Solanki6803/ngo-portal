@@ -1,14 +1,13 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import { loginUser, AuthUserResponse } from "../api/authservice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { setUserInfo } from "../redux/slices/userSlice";
 import { getNgoById } from "../api/ngoService";
 import { setNgoInfo } from "../redux/slices/ngoSlice";
-import { AppDispatch, RootState } from "../redux/store";
-import { APIResponse } from "../types/api";
+import { AppDispatch } from "../redux/store";
 
-function Login() {
+export const Login: React.FC = () => {
   const initialFormValues = {
     email: "",
     password: "",
@@ -43,7 +42,8 @@ function Login() {
 
       if (response.data.user.ngoId) {
         const ngoResponse = await getNgoById(response.data.user.ngoId);
-        dispatch(setNgoInfo(ngoResponse.data.ngo));
+        if (ngoResponse.status === 200 && ngoResponse.data.ngo)
+          dispatch(setNgoInfo(ngoResponse.data.ngo));
       }
       navigate("/");
     } catch (err: any) {
@@ -96,6 +96,4 @@ function Login() {
       </form>
     </div>
   );
-}
-
-export default Login;
+};

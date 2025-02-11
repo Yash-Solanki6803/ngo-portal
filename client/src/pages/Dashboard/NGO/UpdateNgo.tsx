@@ -1,7 +1,7 @@
-import { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { updateNgo } from "../../../api/ngoService";
 import { useDispatch, useSelector } from "react-redux";
-import { setNgoInfo } from "../../../redux/slices/ngoSlice";
+import { setNgoInfo } from "@/redux/slices/ngoSlice";
 import {
   Card,
   CardContent,
@@ -13,11 +13,13 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router";
-import { DeleteNGOBtn } from "@/src/components";
+import { DeleteNGOBtn } from "@/components";
+import { RootState } from "@/redux/store";
 
-function UpdateNgo() {
+export const UpdateNgo: React.FC = () => {
   const dispatch = useDispatch();
-  const initialNgoData = useSelector((state) => state.ngo);
+  const initialNgoData = useSelector((state: RootState) => state.ngo.ngoInfo);
+  if (!initialNgoData) return null;
   const initialState = {
     id: initialNgoData._id,
     name: initialNgoData.name,
@@ -29,14 +31,14 @@ function UpdateNgo() {
   };
   const [ngo, setNgo] = useState(initialState);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNgo({ ...ngo, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
     setLoading(true);
     if (
@@ -52,10 +54,14 @@ function UpdateNgo() {
       return;
     } else {
       try {
-        const data = await updateNgo(ngo);
+        const response = await updateNgo(ngo);
+        const { data } = response;
+        if (response.status !== 200 || !data.ngo) {
+          throw new Error("Error updating NGO");
+        }
         //Update the ngo state and user state in the redux store
         dispatch(setNgoInfo(data.ngo));
-      } catch (error) {
+      } catch (error: any) {
         setError(error);
       } finally {
         setLoading(false);
@@ -159,6 +165,4 @@ function UpdateNgo() {
       </Card>
     </section>
   );
-}
-
-export default UpdateNgo;
+};

@@ -1,12 +1,12 @@
 import { useState, FormEvent, ChangeEvent } from "react";
 import { AuthUserResponse, registerUser } from "../api/authservice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { setUserInfo } from "../redux/slices/userSlice";
 import { setNgoInfo } from "../redux/slices/ngoSlice";
 import { getNgoById } from "../api/ngoService";
 
-function Register() {
+export const Register: React.FC = () => {
   const initialFormValues = {
     name: "",
     email: "",
@@ -107,6 +107,4 @@ function Register() {
       </form>
     </div>
   );
-}
-
-export default Register;
+};

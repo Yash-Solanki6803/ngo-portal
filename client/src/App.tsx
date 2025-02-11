@@ -1,21 +1,21 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import React from "react";
 import {
-  DashboardLayout,
-  HomeLayout,
   About,
-  Home,
-  NoPage,
-  Login,
-  Register,
-  Dashboard,
-  Users,
   Campaigns,
   CreateCampaign,
-  SingleCampaign,
   CreateNgo,
+  Dashboard,
+  DashboardLayout,
+  Home,
+  HomeLayout,
+  Login,
+  NoPage,
+  Register,
+  SingleCampaign,
   UpdateNgo,
-} from "./pages";
+  Users,
+} from "@/pages";
 const App: React.FC = () => {
   return (
     <BrowserRouter>

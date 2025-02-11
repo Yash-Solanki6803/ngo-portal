@@ -1,21 +1,28 @@
 import { useSelector } from "react-redux";
 import { Outlet, Link } from "react-router";
-import { AppSidebar } from "../../components";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import React from "react";
+import { RootState } from "../../redux/store";
 
 // import { AppSidebar } from "@/src/components/app-sidebar";
 
-function DashboardLayout() {
-  const user = useSelector((state) => state.user);
-  const userInfo = user.userInfo;
+export type item = {
+  title: string;
+  url: string;
+  icon: any;
+};
+
+export const DashboardLayout: React.FC = () => {
+  const userInfo = useSelector((state: RootState) => state.user.userInfo);
 
   if (!userInfo) {
     return <div>Loading...</div>;
   }
 
   // Menu items.
-  const volunteerItems = [
+  const volunteerItems: item[] = [
     {
       title: "Dashboard",
       url: "/dashboard",
@@ -27,7 +34,7 @@ function DashboardLayout() {
       icon: Inbox,
     },
   ];
-  const ngoItems = [
+  const ngoItems: item[] = [
     {
       title: "Dashboard",
       url: "/dashboard",
@@ -54,7 +61,7 @@ function DashboardLayout() {
       icon: Settings,
     },
   ];
-  const devItems = [
+  const devItems: item[] = [
     {
       title: "Dashboard",
       url: "/dashboard",
@@ -72,7 +79,7 @@ function DashboardLayout() {
     },
   ];
 
-  let items = [];
+  let items: item[] = [];
   if (userInfo.role === "volunteer") {
     items = volunteerItems;
   } else if (userInfo.role === "ngo") {
@@ -89,6 +96,4 @@ function DashboardLayout() {
       </section>
     </SidebarProvider>
   );
-}
-
-export default DashboardLayout;
+};

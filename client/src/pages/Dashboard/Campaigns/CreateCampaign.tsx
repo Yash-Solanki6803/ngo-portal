@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { createCampaign } from "@/src/api/campaignService";
+import React, { ChangeEvent, useState } from "react";
+import { createCampaign } from "@/api/campaignService";
 import {
   Card,
   CardContent,
@@ -18,28 +18,29 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { DatePicker } from "@/src/components";
+import { DatePicker } from "@/components";
 import { useNavigate } from "react-router";
+import { CampaignStatus } from "@/types/campaign";
 
-function CreateCampaign() {
+export const CreateCampaign: React.FC = () => {
   const initialCampaignState = {
     name: "",
     description: "",
     location: "",
     startDate: "",
     endDate: "",
-    status: "upcoming",
+    status: CampaignStatus.UPCOMING,
   };
   const [campaign, setCampaign] = useState(initialCampaignState);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCampaign({ ...campaign, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
     setLoading(true);
     console.log(campaign);
@@ -55,9 +56,10 @@ function CreateCampaign() {
       return;
     } else {
       try {
-        const data = await createCampaign(campaign);
+        const response = await createCampaign(campaign);
+        const { data } = response;
         console.log(data);
-      } catch (error) {
+      } catch (error: any) {
         setError(error);
       } finally {
         setLoading(false);
@@ -112,11 +114,14 @@ function CreateCampaign() {
                 <Label htmlFor="status">Status</Label>
                 <Select
                   name="status"
-                  onValueChange={(selection) => {
+                  onValueChange={(selection: CampaignStatus) => {
                     if (selection) {
                       handleChange({
-                        target: { name: "status", value: selection },
-                      });
+                        target: {
+                          name: "status",
+                          value: selection,
+                        },
+                      } as React.ChangeEvent<HTMLInputElement>); // ✅ Explicitly cast as ChangeEvent<HTMLInputElement>
                     }
                   }}
                   value={campaign.status}
@@ -125,9 +130,15 @@ function CreateCampaign() {
                     <SelectValue placeholder="Status" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="upcoming">Upcoming</SelectItem>
-                    <SelectItem value="ongoing">Ongoing</SelectItem>
-                    <SelectItem value="completed">Completed</SelectItem>
+                    <SelectItem value={CampaignStatus.UPCOMING}>
+                      Upcoming
+                    </SelectItem>
+                    <SelectItem value={CampaignStatus.ONGOING}>
+                      Ongoing
+                    </SelectItem>
+                    <SelectItem value={CampaignStatus.COMPLETED}>
+                      Completed
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -165,6 +176,4 @@ function CreateCampaign() {
       </Card>
     </section>
   );
-}
-
-export default CreateCampaign;
+};

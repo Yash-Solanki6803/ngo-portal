@@ -1,5 +1,5 @@
 import api, { handleApiError } from "./api";
-import { AxiosResponse, AxiosError, Axios } from "axios";
+import { AxiosError } from "axios";
 import { User } from "../types/user";
 import { APIResponse } from "../types/api";
 
@@ -51,6 +51,7 @@ export const loginUser = async (
 };
 
 export const fetchUserFromToken = async (): Promise<AuthUserResponse> => {
+  console.log("fetching user from token");
   try {
     const response = api.get("/auth/user", {
       withCredentials: true,

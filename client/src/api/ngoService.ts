@@ -1,11 +1,13 @@
 import api, { handleApiError } from "./api";
 import { APIResponse } from "../types/api";
 import { NGO } from "../types/ngo";
+import { User } from "@/types/user";
 
 export interface NgoResponse extends APIResponse {
   data: {
     message: string;
     ngo?: NGO;
+    user?: User;
   };
 }
 

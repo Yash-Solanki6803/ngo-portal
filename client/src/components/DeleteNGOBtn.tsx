@@ -1,15 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { deleteNgo } from "../api/ngoService";
-import { clearNgoInfo } from "../redux/slices/ngoSlice";
-import { clearUserInfo } from "../redux/slices/userSlice";
+import { clearNgoInfo } from "@/redux/slices/ngoSlice";
+import { clearUserInfo } from "@/redux/slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { RootState } from "@/redux/store";
+import React, { ChangeEvent } from "react";
 
-function DeleteNGOBtn() {
-  const ngoId = useSelector((state) => state.ngo._id);
+export const DeleteNGOBtn: React.FC = () => {
+  const ngoId = useSelector((state: RootState) => state.ngo.ngoInfo?._id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleDelete = async (e) => {
+  const handleDelete = async (e: ChangeEvent<HTMLButtonElement>) => {
     e.preventDefault();
     console.log("deleteBtn:", ngoId);
     try {
@@ -28,6 +30,4 @@ function DeleteNGOBtn() {
       Delete NGO
     </Button>
   );
-}
-
-export default DeleteNGOBtn;
+};
