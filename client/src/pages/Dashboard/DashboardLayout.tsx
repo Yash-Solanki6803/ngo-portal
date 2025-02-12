@@ -89,11 +89,9 @@ export const DashboardLayout: React.FC = () => {
   }
 
   return (
-    <SidebarProvider className="relative flex h-full">
+    <SidebarProvider className="flex-grow overflow-hidden ">
       <AppSidebar items={items} />
-      <section className="flex  w-full">
-        <Outlet />
-      </section>
+      <Outlet />
     </SidebarProvider>
   );
 };

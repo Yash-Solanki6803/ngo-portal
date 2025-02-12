@@ -15,8 +15,8 @@ import React from "react";
 
 export const AppSidebar: React.FC<{ items: item[] }> = ({ items }) => {
   return (
-    <Sidebar className="" collapsible="none">
-      <SidebarInset className="">
+    <Sidebar className="h-full " collapsible="none">
+      <SidebarInset className="h-full">
         <SidebarContent className=" px-4 py-10 shadow-2xl">
           <SidebarGroup>
             <SidebarGroupLabel className="text-2xl text-gray-800 pb-4 rounded-none border-b">

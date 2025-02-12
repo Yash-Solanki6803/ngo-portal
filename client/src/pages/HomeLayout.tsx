@@ -46,8 +46,8 @@ export const HomeLayout: React.FC = () => {
   }, []);
 
   return (
-    <main className="h-screen flex flex-col">
-      <nav className="border flex justify-between px-24 py-6 items-center relative shadow-xl">
+    <main className="h-screen flex flex-col ">
+      <nav className="border-b flex justify-between px-24 py-6 items-center relative shadow-xl">
         <ul className="flex gap-10">
           <li>
             <Link to="/">Home</Link>
@@ -73,7 +73,6 @@ export const HomeLayout: React.FC = () => {
           )}
         </div>
       </nav>
-
       <Outlet />
     </main>
   );
