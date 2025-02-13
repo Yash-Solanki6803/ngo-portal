@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Outlet, Link } from "react-router";
 import { AppSidebar } from "@/components";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
 import React from "react";
 import { RootState } from "../../redux/store";
@@ -89,11 +89,10 @@ export const DashboardLayout: React.FC = () => {
   }
 
   return (
-    <SidebarProvider className="relative flex h-full">
+    <SidebarProvider className="flex-grow overflow-hidden yash">
       <AppSidebar items={items} />
-      <section className="flex  w-full">
-        <Outlet />
-      </section>
+      <SidebarTrigger className="h-full rounded-tl-none rounded-bl-none shadow-2xl border-r" />
+      <Outlet />
     </SidebarProvider>
   );
 };

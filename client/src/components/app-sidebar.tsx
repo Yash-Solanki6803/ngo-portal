@@ -15,9 +15,9 @@ import React from "react";
 
 export const AppSidebar: React.FC<{ items: item[] }> = ({ items }) => {
   return (
-    <Sidebar className="" collapsible="none">
-      <SidebarInset className="">
-        <SidebarContent className=" px-4 py-10 shadow-2xl">
+    <Sidebar className="h-full absolute">
+      <SidebarInset className="h-full">
+        <SidebarContent className=" px-4 py-10 shadow-2xl sidebar">
           <SidebarGroup>
             <SidebarGroupLabel className="text-2xl text-gray-800 pb-4 rounded-none border-b">
               NGO Portal
