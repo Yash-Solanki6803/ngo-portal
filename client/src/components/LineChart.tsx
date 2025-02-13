@@ -1,11 +1,5 @@
 import { TrendingUp } from "lucide-react";
-import {
-  CartesianGrid,
-  Line,
-  LineChart,
-  XAxis,
-  ResponsiveContainer,
-} from "recharts";
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
 import {
   Card,

@@ -5,9 +5,11 @@ import { fetchUserFromToken } from "../api/authservice";
 import { getNgoById } from "../api/ngoService";
 import { setUserInfo } from "../redux/slices/userSlice";
 import { setNgoInfo } from "../redux/slices/ngoSlice";
-import { Logout } from "@/components";
+import { Logout, CustomAvatar } from "@/components";
 import { AppDispatch, RootState } from "../redux/store";
 import { AxiosError } from "axios";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { CustomNavbar } from "../components/CustomNavbar";
 
 export const HomeLayout: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -46,33 +48,8 @@ export const HomeLayout: React.FC = () => {
   }, []);
 
   return (
-    <main className="h-screen flex flex-col ">
-      <nav className="border-b flex justify-between px-24 py-6 items-center relative shadow-xl">
-        <ul className="flex gap-10">
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/contact">Contact</Link>
-          </li>
-        </ul>
-        <div>
-          {isLoggedIn ? (
-            <div className="flex gap-10">
-              <Logout />
-              <Link to="/dashboard">Dashboard</Link>
-            </div>
-          ) : (
-            <div className="flex gap-10">
-              <Link to="/login">Login</Link>
-              <Link to="/register">Register</Link>
-            </div>
-          )}
-        </div>
-      </nav>
+    <main className="h-screen w-screen flex flex-col ">
+      <CustomNavbar isLoggedIn={isLoggedIn} />
       <Outlet />
     </main>
   );

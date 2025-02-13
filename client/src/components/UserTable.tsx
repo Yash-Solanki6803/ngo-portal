@@ -52,36 +52,6 @@ const invoices = [
     totalAmount: "$300.00",
     paymentMethod: "Credit Card",
   },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
 ];
 
 export function UserTable() {
@@ -89,10 +59,16 @@ export function UserTable() {
     <Table className="bg-gray-100 rounded-lg ">
       <TableHeader>
         <TableRow>
-          <TableHead className="text-black font-bold p-4">Invoice</TableHead>
-          <TableHead className="text-black font-bold p-4">Status</TableHead>
-          <TableHead className="text-black font-bold p-4">Method</TableHead>
-          <TableHead className="text-right text-black font-bold p-4">
+          <TableHead className="text-black font-bold text-xs xl:text-base py-4 xl:p-4">
+            Invoice
+          </TableHead>
+          <TableHead className="text-black font-bold text-xs xl:text-base py-4 xl:p-4">
+            Status
+          </TableHead>
+          <TableHead className="text-black font-bold text-xs xl:text-base py-4 xl:p-4">
+            Method
+          </TableHead>
+          <TableHead className="text-right text-black font-bold text-xs xl:text-base py-4 xl:p-4">
             Amount
           </TableHead>
         </TableRow>
@@ -100,10 +76,16 @@ export function UserTable() {
       <TableBody>
         {invoices.map((invoice) => (
           <TableRow key={invoice.invoice}>
-            <TableCell className="font-medium p-4">{invoice.invoice}</TableCell>
-            <TableCell className="p-4">{invoice.paymentStatus}</TableCell>
-            <TableCell className="p-4">{invoice.paymentMethod}</TableCell>
-            <TableCell className="text-right p-4">
+            <TableCell className="font-medium text-xs xl:text-base py-4 xl:p-4">
+              {invoice.invoice}
+            </TableCell>
+            <TableCell className="text-xs xl:text-base py-4 xl:p-4">
+              {invoice.paymentStatus}
+            </TableCell>
+            <TableCell className="text-xs xl:text-base py-4 xl:p-4">
+              {invoice.paymentMethod}
+            </TableCell>
+            <TableCell className="text-right text-xs xl:text-base py-4 xl:p-4">
               {invoice.totalAmount}
             </TableCell>
           </TableRow>

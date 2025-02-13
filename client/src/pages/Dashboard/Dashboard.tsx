@@ -1,10 +1,9 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import React from "react";
-import { CustomLineChart } from "@/components";
 import { UserRole } from "@/types/user";
-import { Separator } from "@/components/ui/separator";
-import { UserTable } from "../../components/UserTable";
+import { DeveloperDashboard } from "@/components";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export const Dashboard: React.FC = () => {
   const user = useSelector((state: RootState) => state.user);
@@ -16,51 +15,22 @@ export const Dashboard: React.FC = () => {
   }
 
   return (
-    <section className="w-full px-20  py-10 overflow-auto">
-      <h2 className="capitalize text-4xl font-semibold tracking-wide text-gray-800 py-4 w-full border-b">
-        Welcome {userInfo.name}!
-      </h2>
-      <article className="py-4 border-b">
+    <section className="w-full px-4 py-2 xl:px-20  xl:py-10 overflow-auto">
+      <div className="flex w-full items-center justify-between border-b">
+        <h2 className="capitalize text-lg xl:text-4xl font-semibold tracking-wide text-gray-800 py-4 w-full ">
+          Welcome {userInfo.name}!
+        </h2>
+        <Avatar className="p-2 w-10 xl:w-16 h-full ">
+          <AvatarImage className="h-full" src="./vite.svg" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+      </div>
+      <article className="py-4 border-b text-xs xl:text-base">
         <p className="w-1/3 ">Email: {userInfo.email}</p>
         <p className="w-1/3 ">Role: {userInfo.role}</p>
       </article>
 
-      {/* Show Count statistics */}
-      <article className=" my-4 px-4 border-b  h-[80vh] ">
-        <div className="flex justify-between py-10">
-          {/* Total Ngos, users and campaigns */}
-          <div className="w-1/2 px-10 py-5 flex flex-col justify-evenly">
-            <div className="w-full  flex p-4  h-fit ">
-              <h4 className="w-1/2 text-4xl  py-2 border-r">Total NGOs</h4>
-              <p className="w-1/2 text-center text-5xl py-2">45</p>
-            </div>
-            <div className="w-full  flex p-4  h-fit ">
-              <h4 className="w-1/2 text-4xl  py-2 border-r">Total Campaigns</h4>
-              <p className="w-1/2 text-center text-5xl py-2">2235</p>
-            </div>
-            <div className="w-full  flex p-4  h-fit ">
-              <h4 className="w-1/2 text-4xl  py-2 border-r">Total Users</h4>
-              <p className="w-1/2 text-center text-5xl py-2">12835</p>
-            </div>
-          </div>
-          <div className="w-1/2 ">
-            <CustomLineChart />
-          </div>
-        </div>
-      </article>
-
-      {/* Show latest users and ngos */}
-
-      <article className=" my-4 px-4 py-10 flex gap-10   ">
-        <div className="w-1/2 ">
-          <h4 className="text-xl font-bold py-3">Latest Users</h4>
-          <UserTable />
-        </div>
-        <div className="w-1/2">
-          <h4 className="text-xl font-bold py-3">Latest NGO's</h4>
-          <UserTable />
-        </div>
-      </article>
+      {userInfo.role === UserRole.Dev && <DeveloperDashboard />}
 
       {userInfo.role === UserRole.NGO && ngoInfo !== null && (
         <div>
