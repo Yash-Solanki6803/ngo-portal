@@ -15,3 +15,4 @@ export * from "./Dashboard/Campaigns/CreateCampaign";
 export * from "./Dashboard/Campaigns/SingleCampaign";
 export * from "./Dashboard/NGO/CreateNgo";
 export * from "./Dashboard/NGO/UpdateNgo";
+export * from "./Dashboard/NGO/Ngos";

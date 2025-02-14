@@ -11,6 +11,13 @@ export interface NgoResponse extends APIResponse {
   };
 }
 
+export interface NgosResponse extends APIResponse {
+  data: {
+    message: string;
+    ngos?: NGO[];
+  };
+}
+
 //Create NGO
 export const createNgo = async (data: NGO): Promise<NgoResponse> => {
   try {
@@ -45,6 +52,16 @@ export const updateNgo = async (data: NGO): Promise<NgoResponse> => {
 export const getNgoById = async (_id: NGO["_id"]): Promise<NgoResponse> => {
   try {
     const response = api.get(`/ngos/${_id}`);
+    return response;
+  } catch (error) {
+    return handleApiError(error);
+  }
+};
+
+//Get all NGOs
+export const getAllNgos = async (): Promise<NgosResponse> => {
+  try {
+    const response = api.get("/ngos");
     return response;
   } catch (error) {
     return handleApiError(error);
