@@ -33,7 +33,7 @@ export const CustomAvatar: React.FC = () => {
         onClick={() => setOpenAvatar(!openAvatar)}
         className="border-2 p-1 cursor-pointer"
       >
-        <AvatarImage src="./vite.svg" />
+        <AvatarImage src="/vite.svg" />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
       {openAvatar && (

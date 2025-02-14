@@ -10,6 +10,7 @@ import {
   Home,
   HomeLayout,
   Login,
+  Ngos,
   NoPage,
   Register,
   SingleCampaign,
@@ -28,6 +29,7 @@ const App: React.FC = () => {
           <Route path="dashboard" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="users" element={<Users />} />
+            <Route path="ngos" element={<Ngos />} />
             <Route path="update-ngo" element={<UpdateNgo />} />
             <Route path="create-ngo" element={<CreateNgo />} />
 
